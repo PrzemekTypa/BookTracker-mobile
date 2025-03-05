@@ -33,8 +33,7 @@ The system consists of a mobile app, desktop app, web app, and a central API.
 ✅ Notifications for new books and comments  
 ✅ Reading challenge mode
 
-### Functionalities
-
+## 📄 Functionalities
 | OPZ  | Feature | API | Web | Mobile | Desktop |
 |------|---------|-----|-----|--------|---------|
 | **BKT-01** | The first administrator is automatically added to the system. | ✓ | | | |
@@ -56,8 +55,6 @@ The system consists of a mobile app, desktop app, web app, and a central API.
 | **BKT-17** | The application supports languages: Polish, English. | * | ✓ | ✓ | ✓ |
 | **BKT-18** | The user can reset their password. | * | ✓ | ✓ | |
 | **BKT-19** | The user can log out. | * | ✓ | ✓ | |
-
-
 
 
 ## 🚀 Running the Project

@@ -1,11 +1,11 @@
 # 📚 BookTracker – Personal Library Management System  
 
 BookTracker is a cross-platform system that allows users to catalog books, rate them, and track their reading progress. 
-The system consists of a mobile app, desktop app, web app, and a central API.
+This repository contains only the **mobile application** built with Kotlin and Jetpack Compose. The project is part of a larger system consisting of a mobile app, desktop app, web app, and backend API.
 
 ## 📌 Technologies
-- **Backend (API)**: PHP + Laravel + MariaDB  
 - **Mobile App**: Kotlin + Jetpack Compose  
+- **Backend (API)**: PHP + Laravel + MariaDB  
 - **Desktop App**: JavaFX  
 - **Web App**: Vue 3 + TypeScript + Bootstrap  
 - **Database**: MariaDB  
@@ -49,4 +49,6 @@ The system consists of a mobile app, desktop app, web app, and a central API.
 
 
 ## 🚀 Running the Project
-Each application has its own instructions located in the `docs/` folder.
+- Clone the repository and open it in **Android Studio**.
+- Open the `BookTracker-Mobile` project and run it on an emulator or connected device.
+

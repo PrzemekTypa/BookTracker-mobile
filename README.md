@@ -10,15 +10,6 @@ The system consists of a mobile app, desktop app, web app, and a central API.
 - **Web App**: Vue 3 + TypeScript + Bootstrap  
 - **Database**: MariaDB  
 
-## 📂 Repository Structure
-
-📁 BookTracker/  
-├── 📂 backend/       # Laravel API  
-├── 📂 mobile/        # Mobile App (Kotlin)  
-├── 📂 desktop/       # Desktop App (JavaFX)  
-├── 📂 web/           # Web App (Vue 3)  
-└── 📂 docs/          # Documentation and specifications  
-
 ## 👥 Team
 - **Przemysław Typa** – Mobile App (Kotlin)
 - **Damian Domański** – Desktop App (JavaFX)

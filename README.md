@@ -3,18 +3,21 @@
 BookTracker is a cross-platform system that allows users to catalog books, rate them, and track their reading progress. 
 This repository contains only the **mobile application** built with Kotlin and Jetpack Compose. The project is part of a larger system consisting of a mobile app, desktop app, web app, and backend API.
 
+## 📂 Project Repositories and 👥 Team
+
+The BookTracker project consists of four separate repositories:
+
+- **📱 Mobile App (Kotlin)** – [BookTracker-mobile](https://github.com/PrzemekTypa/BookTracker-mobile) *Przemysław Typa*
+- **🌐 Web App (Vue 3)** – [BookTracker-web](Loading...)  *Mateusz Rejman*
+- **🖥️ Desktop App (JavaFX)** – [BookTracker-desktop](https://github.com/fvalz/BookTracker-Deskop) *Damian Domański*
+- **🛠️ Backend/API (Laravel + MariaDB)** – [BookTracker-api](https://github.com/danielmosakowski/BookTracker-api)  *Daniel Mosakowski*
+
 ## 📌 Technologies
-- **Mobile App**: Kotlin + Jetpack Compose  
-- **Backend (API)**: PHP + Laravel + MariaDB  
+- **Mobile App**: Kotlin + Jetpack Compose 
+- **Backend (API)**: PHP + Laravel 
 - **Desktop App**: JavaFX  
 - **Web App**: Vue 3 + TypeScript + Bootstrap  
 - **Database**: MariaDB  
-
-## 👥 Team
-- **Przemysław Typa** – Mobile App (Kotlin)
-- **Damian Domański** – Desktop App (JavaFX)
-- **Mateusz Rejman** – Web App (Vue 3)
-- **Daniel Mosakowski** – Backend/API (Laravel + MariaDB)
 
 ## 📖 Features / under development
 ✅ Add books to the collection (manually and via ISBN)  

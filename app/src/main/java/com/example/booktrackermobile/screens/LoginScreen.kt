@@ -9,7 +9,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginSuccess: () -> Unit)  {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -45,8 +45,8 @@ fun LoginScreen() {
 
         Button(
             onClick = {
-                // Tu można dodać logikę logowania
                 println("Kliknięto logowanie: $email / $password")
+                onLoginSuccess()
             },
             modifier = Modifier.fillMaxWidth()
         ) {

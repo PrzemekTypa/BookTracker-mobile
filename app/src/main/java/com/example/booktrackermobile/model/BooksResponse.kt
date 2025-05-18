@@ -1,5 +1,5 @@
 package com.example.booktrackermobile.model
 
-data class BookResponse(
+data class BooksResponse(
     val docs: List<Book>
 )

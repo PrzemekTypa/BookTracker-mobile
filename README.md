@@ -8,8 +8,8 @@ This repository contains only the **mobile application** built with Kotlin and J
 The BookTracker project consists of four separate repositories:
 
 - **📱 Mobile App (Kotlin)** – [BookTracker-mobile](https://github.com/PrzemekTypa/BookTracker-mobile) *Przemysław Typa*
-- **🌐 Web App (Vue 3)** – [BookTracker-web](Loading...)  *Mateusz Rejman*
-- **🖥️ Desktop App (JavaFX)** – [BookTracker-desktop](https://github.com/fvalz/BookTracker-Deskop) *Damian Domański*
+- **🌐 Web App (Vue.js)** – *Repository pending* – *Mateusz Rejman*  *(Waiting for the repository link. The web app is currently unavailable.)*
+- **🖥️ Desktop App (Python)** – [BookTracker-desktop](https://github.com/fvalz/BookTracker-Deskop) *Damian Domański*
 - **🛠️ Backend/API (Laravel + MariaDB)** – [BookTracker-api](https://github.com/danielmosakowski/BookTracker-api)  *Daniel Mosakowski*
 
 ## 📌 Technologies
@@ -55,3 +55,9 @@ The BookTracker project consists of four separate repositories:
 - Clone the repository and open it in **Android Studio**.
 - Open the `BookTracker-Mobile` project and run it on an emulator or connected device.
 
+---
+
+## 📱 BookTracker Mobile App 
+
+
+This section will be regularly updated with details, development progress, and documentation related to the mobile application.

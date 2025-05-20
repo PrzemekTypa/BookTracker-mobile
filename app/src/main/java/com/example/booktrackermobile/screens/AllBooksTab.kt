@@ -14,43 +14,18 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AllBooksTab() {
-    val scope = rememberCoroutineScope()
-    var books by remember { mutableStateOf<List<Book>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(true) }
-    var error by remember { mutableStateOf<String?>(null) }
+    val books = listOf(
+        Book(title = "Do moich Rodaków ", author_name = listOf("Jan Paweł II")),
+        Book(title = "Zbrodnia i kara", author_name = listOf("Fiodor Dostojewski")),
+        Book(title = "Koń z Valony", author_name = listOf("Patryk Olszowski"))
 
-    LaunchedEffect(Unit) {
-        scope.launch {
-            try {
-                val response: BooksResponse = RetrofitInstance.api.getBooks()
-                books = response.docs
-            } catch (e: Exception) {
-                error = "Błąd podczas pobierania danych: ${e.message}"
-            } finally {
-                isLoading = false
-            }
-        }
-    }
 
-    when {
-        isLoading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
-        error != null -> {
-            Text(
-                text = error ?: "Nieznany błąd",
-                modifier = Modifier.padding(16.dp),
-                color = MaterialTheme.colorScheme.error
-            )
-        }
-        else -> {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(books) { book ->
-                    BookItem(book = book)
-                }
-            }
+    )
+
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        items(books) { book ->
+            BookItem(book = book)
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }

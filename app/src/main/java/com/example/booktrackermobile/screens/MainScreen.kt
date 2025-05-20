@@ -32,10 +32,6 @@ fun MainScreen() {
     }
 }
 
-@Composable
-fun AllBooksTab() {
-    Text("Tutaj będą wszystkie książki")
-}
 
 @Composable
 fun MyLibraryTab() {

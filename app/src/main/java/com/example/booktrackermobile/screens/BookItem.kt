@@ -9,21 +9,12 @@ import com.example.booktrackermobile.model.Book
 
 @Composable
 fun BookItem(book: Book) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
-    ) {
+    Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = book.title ?: "Brak tytułu", style = MaterialTheme.typography.titleMedium)
+            Text(text = book.title, style = MaterialTheme.typography.titleMedium)
             Text(
-                text = "Autor: ${book.author_name?.joinToString() ?: "Nieznany"}",
+                text = book.author_name?.joinToString(", ") ?: "Autor nieznany",
                 style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Rok wydania: ${book.first_publish_year ?: "Brak danych"}",
-                style = MaterialTheme.typography.bodySmall
             )
         }
     }

@@ -3,7 +3,7 @@
 BookTracker is a cross-platform system that allows users to catalog books, rate them, and track their reading progress. 
 This repository contains only the **mobile application** built with Kotlin and Jetpack Compose. The project is part of a larger system consisting of a mobile app, desktop app, web app, and backend API.
 
-## 📂 Project Repositories and 👥 Team
+### 📂 Project Repositories and 👥 Team
 
 The BookTracker project consists of four separate repositories:
 
@@ -12,14 +12,14 @@ The BookTracker project consists of four separate repositories:
 - **🖥️ Desktop App (Python)** – [BookTracker-desktop](https://github.com/fvalz/BookTracker-Deskop) *Damian Domański*
 - **🛠️ Backend/API (Laravel + MariaDB)** – [BookTracker-api](https://github.com/danielmosakowski/BookTracker-api)  *Daniel Mosakowski*
 
-## 📌 Technologies
+### 📌 Technologies
 - **Mobile App**: Kotlin + Jetpack Compose 
 - **Backend (API)**: PHP + Laravel 
 - **Desktop App**: JavaFX  
 - **Web App**: Vue 3 + TypeScript + Bootstrap  
 - **Database**: MariaDB  
 
-## 📖 Features / under development
+### 📖 Features / under development
 ✅ Add books to the collection (manually and via ISBN)  
 ✅ Track reading progress (want to read, reading, read)  
 ✅ Rate and review books  
@@ -27,7 +27,7 @@ The BookTracker project consists of four separate repositories:
 ✅ Notifications for new books and comments  
 ✅ Reading challenge mode
 
-## 📄 Functionalities
+### 📄 Functionalities
 | OPZ  | Feature | API | Web | Mobile | Desktop |
 |------|---------|-----|-----|--------|---------|
 | **BKT-01** | The first administrator is automatically added to the system. | ✓ | | | |
@@ -51,13 +51,12 @@ The BookTracker project consists of four separate repositories:
 | **BKT-19** | The user can log out. | * | ✓ | ✓ | |
 
 
-## 🚀 Running the Project
+---
+
+# 📱 BookTracker Mobile App 
+
+
+### 🚀 Running the Project
 - Clone the repository and open it in **Android Studio**.
 - Open the `BookTracker-Mobile` project and run it on an emulator or connected device.
 
----
-
-## 📱 BookTracker Mobile App 
-
-
-This section will be regularly updated with details, development progress, and documentation related to the mobile application.

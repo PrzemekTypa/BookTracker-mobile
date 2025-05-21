@@ -15,7 +15,7 @@ The BookTracker project consists of four separate repositories:
 ### 📌 Technologies
 - **Mobile App**: Kotlin + Jetpack Compose 
 - **Backend (API)**: PHP + Laravel 
-- **Desktop App**: JavaFX  
+- **Desktop App**: Python  
 - **Web App**: Vue 3 + TypeScript + Bootstrap  
 - **Database**: MariaDB  
 

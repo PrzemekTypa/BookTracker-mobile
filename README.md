@@ -1,14 +1,19 @@
+<!-- back to top -->
+<a name="readme-top"></a>
+
+[![mobile](https://img.shields.io/badge/BookTracker-Mobile-green.svg)](/README-mobile.md)
+
 # 📚 BookTracker – Personal Library Management System  
 
 BookTracker is a cross-platform system that allows users to catalog books, rate them, and track their reading progress. 
-This repository contains only the **mobile application** built with Kotlin and Jetpack Compose. The project is part of a larger system consisting of a mobile app, desktop app, web app, and backend API.
+This repository contains only the [**mobile application**](README-mobile.md) built with Kotlin and Jetpack Compose. The project is part of a larger system consisting of a mobile app, desktop app, web app, and backend API.
 
 ### 📂 Project Repositories and 👥 Team
 
 The BookTracker project consists of four separate repositories:
 
 - **📱 Mobile App (Kotlin)** – [BookTracker-mobile](https://github.com/PrzemekTypa/BookTracker-mobile) *Przemysław Typa*
-- **🌐 Web App (Vue.js)** – *Repository pending* – *Mateusz Rejman*  *(Waiting for the repository link. The web app is currently unavailable.)*
+- **🌐 Web App (Vue.js)** – *Repository pending* – *Mateusz Rejman*
 - **🖥️ Desktop App (Python)** – [BookTracker-desktop](https://github.com/fvalz/BookTracker-Deskop) *Damian Domański*
 - **🛠️ Backend/API (Laravel + MariaDB)** – [BookTracker-api](https://github.com/danielmosakowski/BookTracker-api)  *Daniel Mosakowski*
 
@@ -51,12 +56,5 @@ The BookTracker project consists of four separate repositories:
 | **BKT-19** | The user can log out. | * | ✓ | ✓ | |
 
 
----
 
-# 📱 BookTracker Mobile App 
-
-
-### 🚀 Running the Project
-- Clone the repository and open it in **Android Studio**.
-- Open the `BookTracker-Mobile` project and run it on an emulator or connected device.
-
+[↑ Back to top](#readme-top)

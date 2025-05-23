@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.booktrackermobile.model.Book
+import coil.compose.AsyncImage
+
 
 @Composable
 fun BookItem(book: Book) {
@@ -15,12 +17,29 @@ fun BookItem(book: Book) {
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = book.title ?: "Brak tytułu", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = book.author_name?.joinToString(", ") ?: "Autor nieznany")
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Rok: ${book.first_publish_year ?: "Brak danych"}")
+        Row(modifier = Modifier.padding(16.dp)) {
+
+            val imageUrl = book.cover_i?.let { "https://covers.openlibrary.org/b/id/${it}-L.jpg" }
+
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = "Okładka książki",
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(end = 16.dp)
+            )
+
+            
+            Column {
+                Text(
+                    text = book.title ?: "Brak tytułu",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = book.author_name?.joinToString(", ") ?: "Autor nieznany")
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = "Rok: ${book.first_publish_year ?: "Brak danych"}")
+            }
         }
     }
 }

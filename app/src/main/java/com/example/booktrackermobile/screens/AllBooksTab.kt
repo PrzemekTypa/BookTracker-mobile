@@ -5,20 +5,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.booktrackermobile.model.Book
 import com.example.booktrackermobile.model.BooksResponse
 import com.example.booktrackermobile.network.RetrofitInstance
 import kotlinx.coroutines.launch
+import androidx.navigation.NavHostController
 
 @Composable
-fun AllBooksTab() {
+fun AllBooksTab(navController: NavHostController) {
     val scope = rememberCoroutineScope()
-    var books by remember { mutableStateOf<List<Book>>(emptyList()) }
+    var books by rememberSaveable { mutableStateOf<List<Book>>(emptyList()) }
+    var query by rememberSaveable { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
-    var query by remember { mutableStateOf("fantasy") }
+
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
@@ -63,7 +66,12 @@ fun AllBooksTab() {
 
                     LazyColumn {
                         items(books) { book ->
-                            BookItem(book = book)
+                            BookItem(book = book, onClick = {
+                                val key = book.key?.removePrefix("/works/")
+                                if (key != null) {
+                                    navController.navigate("bookDetails/$key")
+                                }
+                            })
                         }
                     }
 

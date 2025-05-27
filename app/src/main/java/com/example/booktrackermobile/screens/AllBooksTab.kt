@@ -42,7 +42,11 @@ fun AllBooksTab(navController: NavHostController) {
                     val response: BooksResponse = RetrofitInstance.api.searchBooks(query)
                     books = response.docs
                 } catch (e: Exception) {
-                    error = "Błąd: ${e.message}"
+                    error = when {
+                        e.message?.contains("Unable to resolve host", ignoreCase = true) == true ->
+                            "Brak połączenia z internetem. Sprawdź połączenie i spróbuj ponownie."
+                        else -> "Wystąpił błąd: ${e.localizedMessage ?: "Nieznany błąd"}"
+                    }
                 } finally {
                     isLoading = false
                 }

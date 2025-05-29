@@ -14,11 +14,16 @@ import coil.compose.AsyncImage
 import com.example.booktrackermobile.model.WorkDetails
 import com.example.booktrackermobile.network.RetrofitInstance
 import kotlinx.coroutines.launch
+import androidx.compose.ui.platform.LocalContext
+import com.example.booktrackermobile.model.Book
+import com.example.booktrackermobile.storage.BookStorage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookDetailsScreen(bookKey: String, navController: NavController) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val storage = BookStorage(context)
     var bookDetail by remember { mutableStateOf<WorkDetails?>(null) }
     var error by remember { mutableStateOf<String?>(null) }
 
@@ -87,6 +92,24 @@ fun BookDetailsScreen(bookKey: String, navController: NavController) {
                                 text = "Tematy: ${subjects.joinToString()}",
                                 style = MaterialTheme.typography.bodyMedium
                             )
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Button(
+                            onClick = {
+                                val simplifiedBook = Book(
+                                    title = bookDetail!!.title,
+                                    author_name = listOf("Brak danych"),
+                                    first_publish_year = null,
+                                    cover_i = bookDetail!!.covers?.firstOrNull(),
+                                    key = "/works/$bookKey"
+                                )
+                                storage.addBook(simplifiedBook)
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Dodaj do moich książek")
                         }
                     }
                 }

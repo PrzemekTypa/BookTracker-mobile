@@ -8,10 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.booktrackermobile.model.Book
 import coil.compose.AsyncImage
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
+import com.example.booktrackermobile.storage.BookStorage
 
 
 @Composable
 fun BookItem(book: Book, onClick: () -> Unit) {
+
+    val context = LocalContext.current
+    val storage = BookStorage(context)
+
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,6 +49,15 @@ fun BookItem(book: Book, onClick: () -> Unit) {
                 Text(text = book.author_name?.joinToString(", ") ?: "Autor nieznany")
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(text = "Rok: ${book.first_publish_year ?: "Brak danych"}")
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = { storage.addBook(book) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Dodaj do moich książek")
+                }
             }
         }
     }

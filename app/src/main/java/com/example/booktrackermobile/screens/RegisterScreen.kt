@@ -10,13 +10,13 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    onNavigateToRegister: () -> Unit,
-    onNavigateToResetPassword: () -> Unit
+fun RegisterScreen(
+    onRegisterSuccess: () -> Unit,
+    onNavigateToLogin: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val auth = FirebaseAuth.getInstance()
 
@@ -27,7 +27,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Logowanie", style = MaterialTheme.typography.headlineMedium)
+        Text("Rejestracja", style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -48,6 +48,16 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text("Potwierdź hasło") },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
         if (errorMessage != null) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(errorMessage ?: "", color = MaterialTheme.colorScheme.error)
@@ -59,34 +69,38 @@ fun LoginScreen(
             onClick = {
                 errorMessage = null
 
-                if (email.isBlank() || password.isBlank()) {
-                    errorMessage = "Email i hasło nie mogą być puste"
+                if (email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
+                    errorMessage = "Email i hasła nie mogą być puste"
                     return@Button
                 }
 
-                auth.signInWithEmailAndPassword(email, password)
+                if (password != confirmPassword) {
+                    errorMessage = "Hasła nie są takie same"
+                    return@Button
+                }
+                auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            onLoginSuccess()
+                            val user = auth.currentUser
+                            user?.sendEmailVerification()
+                                ?.addOnCompleteListener {
+                                    auth.signOut()
+                                    onRegisterSuccess()
+                                }
                         } else {
-                            errorMessage = task.exception?.localizedMessage ?: "Błąd logowania"
+                            errorMessage = task.exception?.localizedMessage ?: "Błąd rejestracji"
                         }
                     }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Zaloguj się")
+            Text("Zarejestruj się")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = onNavigateToRegister) {
-            Text("Nie masz konta? Zarejestruj się")
-        }
-
-        TextButton(onClick = onNavigateToResetPassword) {
-            Text("Zapomniałeś hasła?")
+        TextButton(onClick = onNavigateToLogin) {
+            Text("Masz już konto? Zaloguj się")
         }
     }
 }
-

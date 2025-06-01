@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
+
 @Composable
 fun MainScreen(navController: NavHostController) {
     val tabs = listOf("Wszystkie książki", "Moja biblioteka", "Ustawienia")
@@ -28,7 +29,7 @@ fun MainScreen(navController: NavHostController) {
         when (selectedTabIndex) {
             0 -> AllBooksTab(navController)
             1 -> MyLibraryTab()
-            2 -> SettingsTab()
+            2 -> SettingsTab(navController)
         }
     }
 }
@@ -39,7 +40,3 @@ fun MyLibraryTab() {
     Text("Tutaj będzie Twoja biblioteka")
 }
 
-@Composable
-fun SettingsTab() {
-    Text("Tutaj będą ustawienia")
-}

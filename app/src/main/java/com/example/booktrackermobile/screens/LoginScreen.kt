@@ -8,6 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
+import androidx.compose.ui.platform.LocalContext
+
 
 @Composable
 fun LoginScreen(
@@ -19,6 +31,33 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val auth = FirebaseAuth.getInstance()
+
+    val context = LocalContext.current
+    val gso = remember {
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("659289605990-ep8gaug74m816u8tgf9j4ugcpr6viq59.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+    }
+    val googleSignInClient = remember { GoogleSignIn.getClient(context, gso) }
+
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { signInTask ->
+                    if (signInTask.isSuccessful) {
+                        onLoginSuccess()
+                    } else {
+                        errorMessage = "Błąd logowania przez Google"
+                    }
+                }
+        } catch (e: ApiException) {
+            errorMessage = "Nieudane logowanie przez Google: ${e.message}"
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -76,6 +115,18 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Zaloguj się")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                val signInIntent = googleSignInClient.signInIntent
+                launcher.launch(signInIntent)
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Zaloguj się przez Google")
         }
 
         Spacer(modifier = Modifier.height(16.dp))

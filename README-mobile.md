@@ -39,6 +39,40 @@
 - Coil (image loading)
 
 ## Project Structure
+```
+com.example.booktrackermobile
+│
+├── model
+│   ├── Book.kt
+│   ├── BooksResponse.kt
+│   ├── DescriptionDeserializer.kt
+│   ├── WorkDetails.kt
+│
+├── navigation
+│   └── MainNavGraph.kt
+│
+├── network
+│   ├── ApiService.kt
+│   └── RetrofitInstance.kt
+│
+├── screens
+│   ├── AllBooksTab.kt
+│   ├── BookDetailsScreen.kt
+│   ├── BookItem.kt
+│   ├── LoginScreen.kt
+│   ├── MainScreen.kt
+│   ├── RegisterScreen.kt
+│   ├── ResetPasswordScreen.kt
+│   └── SettingTab.kt
+│
+├── storage
+│   └── BookStorage.kt
+│
+├── ui.theme
+│
+└── MainActivity.kt
+```
+
 
 
 

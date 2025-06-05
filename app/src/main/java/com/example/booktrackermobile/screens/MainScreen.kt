@@ -9,9 +9,13 @@ import androidx.navigation.NavHostController
 
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController, selectedTab: String = "allBooks") {
+
+    val tabKeys = listOf("allBooks", "myLibrary", "settings")
     val tabs = listOf("Wszystkie książki", "Moja biblioteka", "Ustawienia")
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember {
+        mutableStateOf(tabKeys.indexOf(selectedTab).takeIf { it >= 0 } ?: 0)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(selectedTabIndex = selectedTabIndex) {
@@ -28,15 +32,9 @@ fun MainScreen(navController: NavHostController) {
 
         when (selectedTabIndex) {
             0 -> AllBooksTab(navController)
-            1 -> MyLibraryTab()
+            1 -> MyLibraryTab(navController)
             2 -> SettingsTab(navController)
         }
     }
-}
-
-
-@Composable
-fun MyLibraryTab() {
-    Text("Tutaj będzie Twoja biblioteka")
 }
 

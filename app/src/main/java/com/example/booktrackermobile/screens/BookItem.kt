@@ -14,7 +14,12 @@ import com.example.booktrackermobile.storage.BookStorage
 
 
 @Composable
-fun BookItem(book: Book, onClick: () -> Unit) {
+fun BookItem(
+    book: Book,
+    onClick: () -> Unit,
+    isInLibrary: Boolean = false,
+    onRemoveClick: (() -> Unit)? = null
+) {
 
     val context = LocalContext.current
     val storage = BookStorage(context)
@@ -52,11 +57,23 @@ fun BookItem(book: Book, onClick: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Button(
-                    onClick = { storage.addBook(book) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Dodaj do moich książek")
+                if (!isInLibrary) {
+                    Button(
+                        onClick = { storage.addBook(book) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Dodaj do moich książek")
+                    }
+                }
+
+                onRemoveClick?.let {
+                    Button(
+                        onClick = it,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                    ) {
+                        Text("Usuń z mojej biblioteki")
+                    }
                 }
             }
         }

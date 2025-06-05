@@ -35,7 +35,7 @@ fun LoginScreen(
     val context = LocalContext.current
     val gso = remember {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("659289605990-ep8gaug74m816u8tgf9j4ugcpr6viq59.apps.googleusercontent.com")
+            .requestIdToken("659289605990-91itkfbkvm1ulsrcpfu7etutspm6ko3r.apps.googleusercontent.com")
             .requestEmail()
             .build()
     }

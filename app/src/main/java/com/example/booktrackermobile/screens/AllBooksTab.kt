@@ -73,7 +73,7 @@ fun AllBooksTab(navController: NavHostController) {
                             BookItem(book = book, onClick = {
                                 val key = book.key?.removePrefix("/works/")
                                 if (key != null) {
-                                    navController.navigate("bookDetails/$key")
+                                    navController.navigate("bookDetails/$key?source=allBooks")
                                 }
                             })
                         }

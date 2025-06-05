@@ -6,6 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.booktrackermobile.screens.*
 import com.google.firebase.auth.FirebaseAuth
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 @Composable
 fun MainNavGraph(navController: NavHostController) {
@@ -52,13 +54,34 @@ fun MainNavGraph(navController: NavHostController) {
             )
         }
 
-        composable("main") {
-            MainScreen(navController)
+        composable(
+            route = "main?selectedTab={selectedTab}",
+            arguments = listOf(
+                navArgument("selectedTab") {
+                    type = NavType.StringType
+                    defaultValue = "allBooks"
+                    nullable = true
+                }
+            )
+        ) { backStackEntry ->
+            val selectedTab = backStackEntry.arguments?.getString("selectedTab") ?: "allBooks"
+            MainScreen(navController, selectedTab)
         }
 
-        composable("bookDetails/{bookKey}") { backStackEntry ->
+        composable(
+            route = "bookDetails/{bookKey}?source={source}",
+            arguments = listOf(
+                navArgument("bookKey") { type = NavType.StringType },
+                navArgument("source") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = "allBooks"
+                }
+            )
+        ) { backStackEntry ->
             val bookKey = backStackEntry.arguments?.getString("bookKey") ?: ""
-            BookDetailsScreen(bookKey = bookKey, navController = navController)
+            val source = backStackEntry.arguments?.getString("source") ?: "allBooks"
+            BookDetailsScreen(bookKey = bookKey, navController = navController, source = source)
         }
     }
 }

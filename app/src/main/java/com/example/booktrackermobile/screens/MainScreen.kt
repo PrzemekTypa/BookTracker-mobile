@@ -6,10 +6,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.booktrackermobile.viewmodel.AllBooksViewModel
+
 
 
 @Composable
 fun MainScreen(navController: NavHostController, selectedTab: String = "allBooks") {
+    val allBooksViewModel = remember { AllBooksViewModel() }
 
     val tabKeys = listOf("allBooks", "myLibrary", "settings")
     val tabs = listOf("Wszystkie książki", "Moja biblioteka", "Ustawienia")
@@ -31,10 +34,11 @@ fun MainScreen(navController: NavHostController, selectedTab: String = "allBooks
         Spacer(modifier = Modifier.height(16.dp))
 
         when (selectedTabIndex) {
-            0 -> AllBooksTab(navController)
+            0 -> AllBooksTab(navController, viewModel = allBooksViewModel)
             1 -> MyLibraryTab(navController)
             2 -> SettingsTab(navController)
         }
     }
 }
+
 

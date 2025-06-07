@@ -13,45 +13,33 @@ import com.example.booktrackermobile.model.BooksResponse
 import com.example.booktrackermobile.network.RetrofitInstance
 import kotlinx.coroutines.launch
 import androidx.navigation.NavHostController
+import com.example.booktrackermobile.viewmodel.AllBooksViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+
 
 @Composable
-fun AllBooksTab(navController: NavHostController) {
-    val scope = rememberCoroutineScope()
-    var books by rememberSaveable { mutableStateOf<List<Book>>(emptyList()) }
-    var query by rememberSaveable { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
-
+fun AllBooksTab(
+    navController: NavHostController,
+    viewModel: AllBooksViewModel = viewModel()
+) {
+    val query by viewModel.query.collectAsState()
+    val books by viewModel.books.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         OutlinedTextField(
             value = query,
-            onValueChange = { query = it },
+            onValueChange = { viewModel.updateQuery(it) },
             label = { Text("Wyszukaj książki") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(onClick = {
-            scope.launch {
-                isLoading = true
-                error = null
-                try {
-                    val response: BooksResponse = RetrofitInstance.api.searchBooks(query)
-                    books = response.docs
-                } catch (e: Exception) {
-                    error = when {
-                        e.message?.contains("Unable to resolve host", ignoreCase = true) == true ->
-                            "Brak połączenia z internetem. Sprawdź połączenie i spróbuj ponownie."
-                        else -> "Wystąpił błąd: ${e.localizedMessage ?: "Nieznany błąd"}"
-                    }
-                } finally {
-                    isLoading = false
-                }
-            }
-        }) {
+        Button(onClick = { viewModel.searchBooks() }) {
             Text("Szukaj")
         }
 
@@ -78,10 +66,9 @@ fun AllBooksTab(navController: NavHostController) {
                             })
                         }
                     }
-
                 }
-
             }
         }
     }
 }
+

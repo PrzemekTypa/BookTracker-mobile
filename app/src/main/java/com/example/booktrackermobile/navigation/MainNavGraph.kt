@@ -13,14 +13,14 @@ import androidx.navigation.navArgument
 fun MainNavGraph(navController: NavHostController) {
     // Czy użytkownik jest zalogowany
     val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
-    val startDestination = if (isLoggedIn) "main" else "login"
+    val startDestination = if (isLoggedIn) "main/allBooks" else "login"
 
     NavHost(navController = navController, startDestination = startDestination) {
 
         composable("login") {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate("main") {
+                    navController.navigate("main/allBooks") {
                         popUpTo("login") { inclusive = true }
                     }
                 },
@@ -55,12 +55,11 @@ fun MainNavGraph(navController: NavHostController) {
         }
 
         composable(
-            route = "main?selectedTab={selectedTab}",
+            route = "main/{selectedTab}",
             arguments = listOf(
                 navArgument("selectedTab") {
                     type = NavType.StringType
                     defaultValue = "allBooks"
-                    nullable = true
                 }
             )
         ) { backStackEntry ->

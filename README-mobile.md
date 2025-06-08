@@ -21,11 +21,18 @@
 
 ## Features
 
-- Add books manually or via ISBN
-- Track reading status: want to read, reading, read
-- Rate and review books
-- Reading challenge mode
-- Offline progress tracking
+- The user can add books to their collection.
+- The user can edit the details of books in their collection
+- The user can rate books and add reviews.
+- The user can view a list of books they want to read, are reading, or have already read.
+- The user can filter books by genre, author, or rating.
+- The user can track their reading progress.
+- The user can add books to their "want to read" list.
+- The user can create an account / log in / log out.
+- The user can log in through google.
+- The user can reset their password.
+- The user can track offline reading progress.
+- The application supports languages: Polish, English.
 
 ## Technology Stack
 

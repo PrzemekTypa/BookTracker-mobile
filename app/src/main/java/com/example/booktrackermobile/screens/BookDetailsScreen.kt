@@ -53,7 +53,9 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                 navigationIcon = {
                     IconButton(onClick = {
 
-                        navController.popBackStack()
+                        navController.navigate("main/${source ?: "allBooks"}") {
+                            popUpTo("main/allBooks") { inclusive = true }
+                        }
 
                     }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Powrót")

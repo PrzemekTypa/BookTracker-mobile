@@ -7,13 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.booktrackermobile.viewmodel.AllBooksViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 
 @Composable
 fun MainScreen(navController: NavHostController, selectedTab: String = "allBooks") {
-    val allBooksViewModel = remember { AllBooksViewModel() }
 
+    val allBooksViewModel: AllBooksViewModel = viewModel()
     val tabKeys = listOf("allBooks", "myLibrary", "settings")
     val tabs = listOf("Wszystkie książki", "Moja biblioteka", "Ustawienia")
     var selectedTabIndex by remember {

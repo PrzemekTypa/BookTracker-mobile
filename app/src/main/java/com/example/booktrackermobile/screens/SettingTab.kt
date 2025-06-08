@@ -37,7 +37,7 @@ fun SettingsTab(navController: NavController) {
             onClick = {
                 auth.signOut()
                 navController.navigate("login") {
-                    popUpTo("main") { inclusive = true }
+                    popUpTo("main/allBooks") { inclusive = true }
                 }
             },
             modifier = Modifier.fillMaxWidth()

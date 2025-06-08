@@ -18,12 +18,9 @@ fun BookItem(
     book: Book,
     onClick: () -> Unit,
     isInLibrary: Boolean = false,
-    onRemoveClick: (() -> Unit)? = null
+    onRemoveClick: (() -> Unit)? = null,
+    onAddClick: (() -> Unit)? = null
 ) {
-
-    val context = LocalContext.current
-    val storage = BookStorage(context)
-
 
     Card(
         modifier = Modifier
@@ -59,7 +56,7 @@ fun BookItem(
 
                 if (!isInLibrary) {
                     Button(
-                        onClick = { storage.addBook(book) },
+                        onClick = { onAddClick?.invoke() },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Dodaj do moich książek")

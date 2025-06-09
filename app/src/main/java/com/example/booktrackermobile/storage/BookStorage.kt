@@ -2,6 +2,7 @@ package com.example.booktrackermobile.storage
 
 import android.content.Context
 import com.example.booktrackermobile.model.Book
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -9,7 +10,13 @@ class BookStorage(context: Context) {
 
     private val prefs = context.getSharedPreferences("my_books", Context.MODE_PRIVATE)
     private val gson = Gson()
-    private val key = "saved_books"
+
+    private val userId: String
+        get() = FirebaseAuth.getInstance().currentUser?.uid ?: "anon"
+
+    private val key: String
+        get() = "saved_books_$userId"
+
 
     fun saveBooks(books: List<Book>) {
         val json = gson.toJson(books)

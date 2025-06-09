@@ -15,6 +15,9 @@ import kotlinx.coroutines.launch
 import androidx.navigation.NavHostController
 import com.example.booktrackermobile.viewmodel.AllBooksViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import com.example.booktrackermobile.storage.BookStorage
 
 
 
@@ -23,10 +26,16 @@ fun AllBooksTab(
     navController: NavHostController,
     viewModel: AllBooksViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+    val storage = remember { BookStorage(context) }
+
     val query by viewModel.query.collectAsState()
     val books by viewModel.books.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
+
+    // Lista książek w bibliotece
+    var libraryBooks by remember { mutableStateOf(storage.getBooks()) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
@@ -58,12 +67,20 @@ fun AllBooksTab(
 
                     LazyColumn {
                         items(books) { book ->
-                            BookItem(book = book, onClick = {
-                                val key = book.key?.removePrefix("/works/")
-                                if (key != null) {
-                                    navController.navigate("bookDetails/$key?source=allBooks")
+                            BookItem(
+                                book = book,
+                                onClick = {
+                                    val key = book.key?.removePrefix("/works/")
+                                    if (key != null) {
+                                        navController.navigate("bookDetails/$key?source=allBooks")
+                                    }
+                                },
+                                isInLibrary = libraryBooks.any { it.key == book.key },
+                                onAddClick = {
+                                    storage.addBook(book)
+                                    libraryBooks = storage.getBooks()
                                 }
-                            })
+                            )
                         }
                     }
                 }
@@ -71,4 +88,5 @@ fun AllBooksTab(
         }
     }
 }
+
 

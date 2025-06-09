@@ -38,4 +38,14 @@ class BookStorage(context: Context) {
         val books = getBooks().filterNot { it.key == bookKey }
         saveBooks(books)
     }
+
+    fun updateBook(updatedBook: Book) {
+        val books = getBooks().toMutableList()
+        val index = books.indexOfFirst { it.key == updatedBook.key }
+        if (index != -1) {
+            books[index] = updatedBook
+            saveBooks(books)
+        }
+    }
+
 }

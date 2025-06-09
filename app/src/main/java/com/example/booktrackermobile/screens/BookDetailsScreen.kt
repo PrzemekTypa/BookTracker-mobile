@@ -20,6 +20,11 @@ import com.example.booktrackermobile.model.Book
 import com.example.booktrackermobile.storage.BookStorage
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import com.example.booktrackermobile.model.Review
+import com.example.booktrackermobile.repository.ReviewRepository
+import com.google.firebase.auth.FirebaseAuth
+import java.util.Date
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -272,6 +277,54 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                                 Text("Zapisz postęp")
                             }
 
+                            // --------------- RECENZJA I OCENA ---------------
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            var reviewText by remember { mutableStateOf("") }
+                            var rating by remember { mutableStateOf(0f) }
+
+                            Text("Twoja ocena:")
+                            Slider(
+                                value = rating,
+                                onValueChange = { rating = it },
+                                steps = 3,
+                                valueRange = 1f..5f,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = reviewText,
+                                onValueChange = { reviewText = it },
+                                label = { Text("Twoja recenzja") },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Button(
+                                onClick = {
+                                    scope.launch {
+                                        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "anon"
+                                        val review = Review(
+                                            bookKey = "/works/$bookKey",
+                                            userId = userId,
+                                            rating = rating.toInt(),
+                                            reviewText = reviewText,
+                                            timestamp = Date()
+                                        )
+
+                                        val success = ReviewRepository().addReview(review)
+                                        snackbarHostState.showSnackbar(
+                                            if (success) "Recenzja zapisana!" else "Błąd zapisu recenzji"
+                                        )
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("Wyślij recenzję")
+                            }
                         }
 
                     }

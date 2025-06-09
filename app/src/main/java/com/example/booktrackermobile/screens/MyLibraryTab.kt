@@ -11,27 +11,90 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.booktrackermobile.model.Book
 import com.example.booktrackermobile.storage.BookStorage
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyLibraryTab(navController: NavController) {
     val context = LocalContext.current
     val storage = BookStorage(context)
     var books by remember { mutableStateOf<List<Book>>(emptyList()) }
 
+    // Wczytanie książek
     LaunchedEffect(Unit) {
         books = storage.getBooks()
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    val statusOptions = listOf("all", "want_to_read", "reading", "read")
+    var selectedStatus by remember { mutableStateOf("all") }
+    var expanded by remember { mutableStateOf(false) }
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)
+    ) {
         Text("Moja biblioteka", style = MaterialTheme.typography.headlineSmall)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Dropdown do filtrowania
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            TextField(
+                value = when (selectedStatus) {
+                    "want_to_read" -> "Chcę przeczytać"
+                    "reading" -> "Czytam"
+                    "read" -> "Przeczytane"
+                    else -> "Wszystkie"
+                },
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Filtruj po statusie") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                statusOptions.forEach { status ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                when (status) {
+                                    "want_to_read" -> "Chcę przeczytać"
+                                    "reading" -> "Czytam"
+                                    "read" -> "Przeczytane"
+                                    else -> "Wszystkie"
+                                }
+                            )
+                        },
+                        onClick = {
+                            selectedStatus = status
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (books.isEmpty()) {
-            Text("Brak książek w bibliotece.")
+        // Filtrowanie książek
+        val filteredBooks = books.filter {
+            selectedStatus == "all" || it.status == selectedStatus
+        }
+
+        if (filteredBooks.isEmpty()) {
+            Text("Brak książek w wybranym statusie.")
         } else {
             LazyColumn {
-                items(books) { book ->
+                items(filteredBooks) { book ->
                     BookItem(
                         book = book,
                         onClick = {
@@ -43,7 +106,7 @@ fun MyLibraryTab(navController: NavController) {
                         isInLibrary = true,
                         onRemoveClick = {
                             storage.removeBook(book.key ?: "")
-                            books = storage.getBooks() // odświeżenie listy po usunięciu
+                            books = storage.getBooks() // odświeżenie listy
                         }
                     )
                 }

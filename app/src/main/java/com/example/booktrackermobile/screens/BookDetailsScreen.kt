@@ -114,7 +114,7 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                             cover_i = bookDetail!!.covers?.firstOrNull(),
                             key = "/works/$bookKey",
                             note = storedBook?.note,
-                            status = storedBook?.status ?: "want_to_read"
+                            status = storedBook?.status ?: "none"
                         )
 
                         Button(
@@ -149,7 +149,7 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                             Spacer(modifier = Modifier.height(16.dp))
 
                             var expanded by remember { mutableStateOf(false) }
-                            val statusOptions = listOf("want_to_read", "reading", "read")
+                            val statusOptions = listOf("none", "want_to_read", "reading", "read")
                             var selectedStatus by remember { mutableStateOf(simplifiedBook.status) }
 
                             ExposedDropdownMenuBox(
@@ -181,6 +181,7 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                                             text = {
                                                 Text(
                                                     when (status) {
+                                                        "none" -> "Brak"
                                                         "want_to_read" -> "Chcę przeczytać"
                                                         "reading" -> "Czytam"
                                                         "read" -> "Przeczytane"

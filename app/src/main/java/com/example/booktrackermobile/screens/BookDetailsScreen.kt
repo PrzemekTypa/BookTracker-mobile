@@ -31,6 +31,7 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
     var error by remember { mutableStateOf<String?>(null) }
     var isInLibrary by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+    var progress by remember { mutableStateOf(0f) }
 
     LaunchedEffect(bookKey) {
         scope.launch {
@@ -109,12 +110,13 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                         val storedBook = storage.getBooks().find { it.key == "/works/$bookKey" }
                         val simplifiedBook = Book(
                             title = bookDetail!!.title,
-                            author_name = listOf("Brak danych"),
-                            first_publish_year = null,
+                            author_name = storedBook?.author_name ?: listOf("Brak danych"),
+                            first_publish_year = storedBook?.first_publish_year,
                             cover_i = bookDetail!!.covers?.firstOrNull(),
                             key = "/works/$bookKey",
                             note = storedBook?.note,
-                            status = storedBook?.status ?: "none"
+                            status = storedBook?.status ?: "none",
+                            progress = storedBook?.progress ?: 0
                         )
 
                         Button(
@@ -214,6 +216,7 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                             if (isInLibrary) {
                                 val stored = storage.getBooks().find { it.key == "/works/$bookKey" }
                                 note = stored?.note ?: ""
+                                progress = (stored?.progress ?: 0).toFloat()
                             }
                         }
 
@@ -241,6 +244,34 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                             ) {
                                 Text("Zapisz notatkę")
                             }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            Text("Postęp czytania: ${progress.toInt()}%", style = MaterialTheme.typography.bodyMedium)
+
+                            Slider(
+                                value = progress,
+                                onValueChange = { progress = it },
+                                valueRange = 0f..100f,
+                                steps = 9,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Button(
+                                onClick = {
+                                    val updatedBook = simplifiedBook.copy(progress = progress.toInt())
+                                    storage.updateBook(updatedBook)
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar("Zapisano postęp")
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("Zapisz postęp")
+                            }
+
                         }
 
                     }

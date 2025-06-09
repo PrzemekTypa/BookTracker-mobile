@@ -7,5 +7,6 @@ data class Book(
     val cover_i: Int?,
     val key: String?,
     var note: String? = null,
-    var status: String = "none"
+    var status: String = "none",
+    var progress: Int = 0
 )

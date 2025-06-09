@@ -5,5 +5,7 @@ data class Book(
     val author_name: List<String>?,
     val first_publish_year: Int?,
     val cover_i: Int?,
-    val key: String?
+    val key: String?,
+    var note: String? = null,
+    var status: String = "want_to_read"
 )

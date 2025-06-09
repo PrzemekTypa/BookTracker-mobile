@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalContext
 import com.example.booktrackermobile.model.Book
 import com.example.booktrackermobile.storage.BookStorage
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,13 +106,15 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-
+                        val storedBook = storage.getBooks().find { it.key == "/works/$bookKey" }
                         val simplifiedBook = Book(
                             title = bookDetail!!.title,
                             author_name = listOf("Brak danych"),
                             first_publish_year = null,
                             cover_i = bookDetail!!.covers?.firstOrNull(),
-                            key = "/works/$bookKey"
+                            key = "/works/$bookKey",
+                            note = storedBook?.note,
+                            status = storedBook?.status ?: "want_to_read"
                         )
 
                         Button(
@@ -139,6 +143,105 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                         ) {
                             Text(if (isInLibrary) "Usuń z mojej biblioteki" else "Dodaj do moich książek")
                         }
+
+                        // Dropdown statusu
+                        if (isInLibrary) {
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            var expanded by remember { mutableStateOf(false) }
+                            val statusOptions = listOf("want_to_read", "reading", "read")
+                            var selectedStatus by remember { mutableStateOf(simplifiedBook.status) }
+
+                            ExposedDropdownMenuBox(
+                                expanded = expanded,
+                                onExpandedChange = { expanded = !expanded },
+                            ) {
+                                TextField(
+                                    value = when (selectedStatus) {
+                                        "want_to_read" -> "Chcę przeczytać"
+                                        "reading" -> "Czytam"
+                                        "read" -> "Przeczytane"
+                                        else -> "Brak"
+                                    },
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    label = { Text("Status") },
+                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+                                    modifier = Modifier
+                                        .menuAnchor()
+                                        .fillMaxWidth()
+                                )
+
+                                ExposedDropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    statusOptions.forEach { status ->
+                                        DropdownMenuItem(
+                                            text = {
+                                                Text(
+                                                    when (status) {
+                                                        "want_to_read" -> "Chcę przeczytać"
+                                                        "reading" -> "Czytam"
+                                                        "read" -> "Przeczytane"
+                                                        else -> status
+                                                    }
+                                                )
+                                            },
+                                            onClick = {
+                                                selectedStatus = status
+                                                expanded = false
+
+                                                val updatedBook = simplifiedBook.copy(status = selectedStatus)
+                                                storage.updateBook(updatedBook)
+                                                scope.launch {
+                                                    snackbarHostState.showSnackbar("Zaktualizowano status")
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                        var note by remember { mutableStateOf("") }
+
+// Jeśli książka już w bibliotece, załaduj notatkę
+                        LaunchedEffect(isInLibrary) {
+                            if (isInLibrary) {
+                                val stored = storage.getBooks().find { it.key == "/works/$bookKey" }
+                                note = stored?.note ?: ""
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        if (isInLibrary) {
+                            OutlinedTextField(
+                                value = note,
+                                onValueChange = { note = it },
+                                label = { Text("Notatka") },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Button(
+                                onClick = {
+                                    val updatedBook = simplifiedBook.copy(note = note)
+                                    storage.updateBook(updatedBook)
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar("Zapisano notatkę")
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("Zapisz notatkę")
+                            }
+                        }
+
                     }
                 }
             }

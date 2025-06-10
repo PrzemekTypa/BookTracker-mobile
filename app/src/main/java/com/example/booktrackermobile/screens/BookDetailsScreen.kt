@@ -37,22 +37,37 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
     var isInLibrary by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     var progress by remember { mutableStateOf(0f) }
+    val reviewRepository = remember { ReviewRepository() }
+    var reviews by remember { mutableStateOf<List<Review>>(emptyList()) }
+    var reviewsLoading by remember { mutableStateOf(true) }
+
 
     LaunchedEffect(bookKey) {
         scope.launch {
             try {
+                // Pobierz szczegóły książki
                 val response = RetrofitInstance.api.getWorkDetails(bookKey)
                 bookDetail = response
 
-                // Sprawdź czy książka już jest w bibliotece
+                // Sprawdź, czy książka już jest w bibliotece
                 val allBooks = storage.getBooks()
                 isInLibrary = allBooks.any { it.key == "/works/$bookKey" }
 
             } catch (e: Exception) {
                 error = e.message
             }
+
+            // Pobierz recenzje z Firestore
+            reviewsLoading = true
+            try {
+                reviews = reviewRepository.getReviewsForBook("/works/$bookKey")
+            } catch (e: Exception) {
+                reviews = emptyList()
+            }
+            reviewsLoading = false
         }
     }
+
 
     Scaffold(
         topBar = {
@@ -315,18 +330,57 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                                             timestamp = Date()
                                         )
 
-                                        val success = ReviewRepository().addReview(review)
+                                        val success = reviewRepository.addReview(review)
+                                        if (success) {
+                                            reviews = reviewRepository.getReviewsForBook("/works/$bookKey") // odśwież recenzje
+                                            reviewText = ""
+                                            rating = 0f
+                                        }
                                         snackbarHostState.showSnackbar(
                                             if (success) "Recenzja zapisana!" else "Błąd zapisu recenzji"
                                         )
+
                                     }
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text("Wyślij recenzję")
                             }
-                        }
 
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Text("Recenzje innych użytkowników:", style = MaterialTheme.typography.titleMedium)
+
+                            if (reviewsLoading) {
+                                CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                            } else if (reviews.isEmpty()) {
+                                Text("Brak recenzji.", style = MaterialTheme.typography.bodyMedium)
+                            } else {
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    reviews.forEach { review ->
+                                        Card(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 8.dp),
+                                            elevation = CardDefaults.cardElevation(2.dp)
+                                        ) {
+                                            Column(modifier = Modifier.padding(12.dp)) {
+                                                Text("Ocena: ${review.rating}/5", style = MaterialTheme.typography.bodyLarge)
+                                                Text(review.reviewText, style = MaterialTheme.typography.bodyMedium)
+
+                                                review.timestamp?.let {
+                                                    Spacer(modifier = Modifier.height(4.dp))
+                                                    Text(
+                                                        text = "Dodano: ${android.text.format.DateFormat.format("yyyy-MM-dd HH:mm", it)}",
+                                                        style = MaterialTheme.typography.labelSmall
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
             }

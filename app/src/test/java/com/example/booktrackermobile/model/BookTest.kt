@@ -4,6 +4,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 
+// book_initialization_works — testuje, czy obiekt Book poprawnie przechowuje przekazane wartości.
+//book_default_values_work — testuje, czy wartości domyślne i null dla pól działają zgodnie z oczekiwaniami.
+
 class BookTest {
 
     @Test

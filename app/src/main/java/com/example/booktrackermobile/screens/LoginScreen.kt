@@ -25,7 +25,8 @@ import androidx.compose.ui.platform.LocalContext
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    onNavigateToResetPassword: () -> Unit
+    onNavigateToResetPassword: () -> Unit,
+    onNavigateToPhoneLogin: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -138,6 +139,11 @@ fun LoginScreen(
         TextButton(onClick = onNavigateToResetPassword) {
             Text("Zapomniałeś hasła?")
         }
+
+        TextButton(onClick = onNavigateToPhoneLogin) {
+            Text("Zaloguj się przez numer telefonu")
+        }
+
     }
 }
 

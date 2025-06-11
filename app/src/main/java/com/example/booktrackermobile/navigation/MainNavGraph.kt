@@ -30,8 +30,12 @@ fun MainNavGraph(navController: NavHostController) {
                 },
                 onNavigateToResetPassword = {
                     navController.navigate("reset")
+                },
+                onNavigateToPhoneLogin = {
+                    navController.navigate("phone_login")
                 }
             )
+
         }
 
         composable("register") {
@@ -83,6 +87,20 @@ fun MainNavGraph(navController: NavHostController) {
             val source = backStackEntry.arguments?.getString("source") ?: "allBooks"
             BookDetailsScreen(bookKey = bookKey, navController = navController, source = source)
         }
+
+        composable("phone_login") {
+            PhoneLoginScreen(
+                onLoginSuccess = {
+                    navController.navigate("main/allBooks") {
+                        popUpTo("phone_login") { inclusive = true }
+                    }
+                },
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
 
     }
 }

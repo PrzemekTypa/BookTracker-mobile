@@ -41,12 +41,12 @@ The BookTracker project consists of four separate repositories:
 | **BKT-11** | The user can add books to their "want to read" list. | * | ✓ | ✅ |✅ |
 | **BKT-12** | The user can create an account / log in. | * | ✓ |✅| ✅|
 | **BKT-13** | The user can rate other users based on their reviews and books. | * | ✓ | | |
-| **BKT-14** | The user can browse reviews of other users. | * | ✓ | ⏳ | |
-| **BKT-15** | The mobile and web applications support offline reading progress tracking. | * | ✓ | ⏳ | |
+| **BKT-14** | The user can browse reviews of other users. | * | ✓ |✅|✅|
+| **BKT-15** | The mobile and web applications support offline reading progress tracking. | * | ✓ | ✅ | |
 | **BKT-16** | The application supports languages: Polish, English. | * | ✓ | ⏳ | ✅ |
 | **BKT-17** | The user can reset their password. | * | ✓ | ✅ |✅ |
-| **BKT-18** | The user can add books by ISBN number. | * | ✓ |⏳|✅ |
-| **BKT-19** | The user can enable 2FA for security. | * | ✓ |⏳|✅ |
+| **BKT-18** | The user can add books by ISBN number. | * | ✓ ||✅|
+| **BKT-19** | The user can enable 2FA for security. | * | ✓ |✓|✅ |
 | **BKT-20** | The user can change the app theme. | * | ✓ |  |✅ |
 | **BKT-21** | The user can log out. | * | ✓ | ✅ |✅ |
 

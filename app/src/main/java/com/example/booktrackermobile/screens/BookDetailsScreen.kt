@@ -43,21 +43,51 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
 
 
     LaunchedEffect(bookKey) {
-        scope.launch {
-            try {
-                // Pobierz szczegóły książki
-                val response = RetrofitInstance.api.getWorkDetails(bookKey)
-                bookDetail = response
+        val storedBook = storage.getBooks().find { it.key == "/works/$bookKey" }
+        try {
+            val response = RetrofitInstance.api.getWorkDetails(bookKey)
+            val description = response.description ?: storedBook?.description
+            bookDetail = response.copy(description = description)
+            isInLibrary = storedBook != null
 
-                // Sprawdź, czy książka już jest w bibliotece
-                val allBooks = storage.getBooks()
-                isInLibrary = allBooks.any { it.key == "/works/$bookKey" }
-
-            } catch (e: Exception) {
-                error = e.message
+            if (storedBook == null || storedBook.description != description) {
+                val updatedBook = storedBook?.copy(description = description) ?: Book(
+                    title = response.title,
+                    author_name = storedBook?.author_name ?: emptyList(),
+                    first_publish_year = storedBook?.first_publish_year,
+                    cover_i = response.covers?.firstOrNull(),
+                    key = "/works/$bookKey",
+                    note = storedBook?.note,
+                    status = storedBook?.status ?: "none",
+                    progress = storedBook?.progress ?: 0,
+                    description = description
+                )
+                storage.updateBook(updatedBook)
             }
 
-            // Pobierz recenzje z Firestore
+            // 🔽 DODAJ TO 🔽
+            reviewsLoading = true
+            try {
+                reviews = reviewRepository.getReviewsForBook("/works/$bookKey")
+            } catch (e: Exception) {
+                reviews = emptyList()
+            }
+            reviewsLoading = false
+
+        } catch (e: Exception) {
+            if (storedBook != null) {
+                bookDetail = WorkDetails(
+                    title = storedBook.title ?: "Brak tytułu",
+                    description = storedBook.description ?: "Brak opisu",
+                    subjects = null,
+                    covers = storedBook.cover_i?.let { listOf(it) } ?: emptyList()
+                )
+                isInLibrary = true
+            } else {
+                error = "Brak połączenia z internetem i brak lokalnych danych."
+            }
+
+            // 🔽 TUTAJ TEŻ DODAJ, ŻEBY PRZY BŁĘDZIE NIE ZAWISŁO 🔽
             reviewsLoading = true
             try {
                 reviews = reviewRepository.getReviewsForBook("/works/$bookKey")
@@ -67,6 +97,8 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
             reviewsLoading = false
         }
     }
+
+
 
 
     Scaffold(
@@ -102,6 +134,7 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                             .padding(16.dp)
                             .verticalScroll(rememberScrollState())
                     ) {
+                        // Okładka
                         bookDetail?.covers?.firstOrNull()?.let { coverId ->
                             AsyncImage(
                                 model = "https://covers.openlibrary.org/b/id/$coverId-L.jpg",
@@ -113,30 +146,33 @@ fun BookDetailsScreen(bookKey: String, navController: NavController, source: Str
                             )
                         }
 
+// Tytuł
                         Text(
-                            text = bookDetail!!.title,
+                            text = bookDetail?.title ?: "Brak tytułu",
                             style = MaterialTheme.typography.headlineSmall
                         )
 
-                        Spacer(modifier = Modifier.height(8.dp))
-
+// Opis
                         Text(
-                            text = bookDetail!!.description ?: "Brak opisu",
+                            text = bookDetail?.description ?: "Brak opisu",
                             style = MaterialTheme.typography.bodyLarge
                         )
+
 
                         Spacer(modifier = Modifier.height(24.dp))
 
                         val storedBook = storage.getBooks().find { it.key == "/works/$bookKey" }
+
                         val simplifiedBook = Book(
-                            title = bookDetail!!.title,
+                            title = bookDetail?.title ?: storedBook?.title ?: "Brak tytułu",
                             author_name = storedBook?.author_name ?: listOf("Brak danych"),
                             first_publish_year = storedBook?.first_publish_year,
-                            cover_i = bookDetail!!.covers?.firstOrNull(),
+                            cover_i = bookDetail?.covers?.firstOrNull() ?: storedBook?.cover_i,
                             key = "/works/$bookKey",
                             note = storedBook?.note,
                             status = storedBook?.status ?: "none",
-                            progress = storedBook?.progress ?: 0
+                            progress = storedBook?.progress ?: 0,
+                            description = storedBook?.description
                         )
 
                         Button(

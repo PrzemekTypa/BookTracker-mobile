@@ -1,7 +1,7 @@
 <!-- back to top -->
 <a name="readme-top"></a>
 
-[![overview](https://img.shields.io/badge/BookTracker-overview-green.svg)](/README.md)
+[![overview](https://img.shields.io/badge/BookTracker-overview-green.svg)](/README-overview.md)
 
 <!-- PROJECT LOGO -->
 <br />

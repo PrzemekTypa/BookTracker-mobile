@@ -1,7 +1,7 @@
 <!-- back to top -->
 <a name="readme-top"></a>
 
-[![Go to mobile app docs](https://img.shields.io/badge/→_BookTracker_Mobile_Documentation-green?style=for-the-badge)](README-mobile.md)
+[![Go to mobile app docs](https://img.shields.io/badge/→_BookTracker_Mobile_Documentation-green?style=for-the-badge)](README.md)
 
 
 # 📚 BookTracker – Personal Library Management System  

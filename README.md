@@ -46,7 +46,7 @@ The BookTracker project consists of four separate repositories:
 | **BKT-16** | The application supports languages: Polish, English. | * | ✓ | ⏳ | ✅ |
 | **BKT-17** | The user can reset their password. | * | ✓ | ✅ |✅ |
 | **BKT-18** | The user can add books by ISBN number. | * | ✓ ||✅|
-| **BKT-19** | The user can enable 2FA for security. | * | ✓ |✓|✅ |
+| **BKT-19** | The user can enable 2FA for security. | * | ✓ |✅|✅|
 | **BKT-20** | The user can change the app theme. | * | ✓ |  |✅ |
 | **BKT-21** | The user can log out. | * | ✓ | ✅ |✅ |
 

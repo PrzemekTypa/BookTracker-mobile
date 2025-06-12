@@ -1,55 +1,135 @@
 <!-- back to top -->
 <a name="readme-top"></a>
 
-[![Go to mobile app docs](https://img.shields.io/badge/→_BookTracker_Mobile_Documentation-green?style=for-the-badge)](README-mobile.md)
+[![overview](https://img.shields.io/badge/BookTracker-overview-green.svg)](/README.md)
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/PrzemekTypa/BookTracker-mobile">
+    <img src="app\src\main\res\drawable\book.png" alt="Logo" width="80" height="80">
+  </a>
+
+<h3 align="center">BookTracker</h3>
+
+  <p align="center">
+    BookTracker-mobile is a Kotlin Android app that allows users to catalog books, rate them, and track their reading progress.
+    <br />
+    <br />
+  </p>
+</div>
+
+![Zrzut ekranu](images/bookTrackerMobile.jpg)
 
 
-# 📚 BookTracker – Personal Library Management System  
+## Features
 
-BookTracker is a cross-platform system that allows users to catalog books, rate them, and track their reading progress. 
-This repository contains only the [**mobile application**](README-mobile.md) built with Kotlin and Jetpack Compose. The project is part of a larger system consisting of a mobile app, desktop app, web app, and backend API.
+- The user can add books to their collection.
+- The user can edit the details of books in their collection
+- The user can rate books and add reviews.
+- The user can view a list of books they want to read, are reading, or have already read.
+- The user can track their reading progress.
+- The user can add books to their "want to read" list.
+- The user can create an account / log in / log out.
+- The user can log in through google.
+- The user can log in through phone number.
+- The user can reset their password.
+- The user can track offline reading progress.
+- The application supports languages: Polish, English(soon).
 
-### 📂 Project Repositories and 👥 Team
+## Technology Stack
 
-The BookTracker project consists of four separate repositories:
+- Kotlin
+- Jetpack Compose
+- MVVM architecture
+- Hilt (Dependency Injection)
+- Retrofit (network)
+- StateFlow / ViewModel
+- Navigation Compose
+- Coil (image loading)
 
-- **📱 Mobile App (Kotlin)** – [BookTracker-mobile](https://github.com/PrzemekTypa/BookTracker-mobile) *Przemysław Typa*
-- **🌐 Web App (Vue.js)** – *Repository pending* – *Mateusz Rejman*
-- **🖥️ Desktop App (Python)** – [BookTracker-desktop](https://github.com/fvalz/BookTracker-Deskop) *Damian Domański*
-- **🛠️ Backend/API (Laravel + MariaDB)** – [BookTracker-api](https://github.com/danielmosakowski/BookTracker-api)  *Daniel Mosakowski*
+## Project Structure
+```
+com.example.booktrackermobile/
+│
+├── model/          # Modele danych (np. Book, User) – klasy reprezentujące strukturę danych
+│
+├── navigation/     # Nawigacja w aplikacji – definicje tras, NavGraph, kontrola przepływu ekranów
+│
+├── network/        # Warstwa sieciowa – API, Retrofit, zapytania HTTP
+│
+├── repository/     # Repozytoria – logika dostępu do danych z różnych źródeł (API, lokalne DB)
+│
+├── screens/        # Ekrany UI – pliki z interfejsem użytkownika (Compose), poszczególne widoki
+│
+├── storage/        # Lokalna pamięć – obsługa bazy danych (np. Room), SharedPreferences itp.
+│
+├── ui.theme/       # Motywy – kolory, typografia, style Compose
+│
+├── viewmodel/      # ViewModel – logika biznesowa i stan dla ekranów, zgodnie z architekturą MVVM
+│
+└── MainActivity    # Główna aktywność aplikacji – punkt startowy aplikacji (Compose setup)
 
-### 📌 Technologies
-- **Mobile App**: Kotlin + Jetpack Compose 
-- **Backend (API)**: PHP + Laravel 
-- **Desktop App**: Python  
-- **Web App**: Vue 3 + TypeScript + Bootstrap  
-- **Database**: MariaDB  
+```
 
-### 📄 Functionalities/Features
-| OPZ  | Feature | API | Web | Mobile | Desktop |
-|------|---------|-----|-----|--------|---------|
-| **BKT-01** | The first administrator is automatically added to the system. | ✓ | | | |
-| **BKT-02** | The administrator can log in to the system. | ✓ | |✅| ✅|
-| **BKT-03** | The administrator can add books to the database. | ✓ | |||
-| **BKT-04** | The administrator can manage users (add, remove, edit). | ✓ | |✅|✅|
-| **BKT-05** | The user can add books to their collection. | * | ✓ |✅|✅|
-| **BKT-06** | The user can edit the details of books in their collection. | * | ✓ | ✅ | |
-| **BKT-07** | The user can rate books and add reviews. | * | ✓ |✅|✅|
-| **BKT-08** | The user can view a list of books they want to read, are reading, or have already read. | * | ✓ | ✅ |✅ |
-| **BKT-09** | The user can filter books by genre, author, or rating. | * | ✓ | ⏳ |✅ |
-| **BKT-10** | The user can track their reading progress. | * | ✓ | ✅ | |
-| **BKT-11** | The user can add books to their "want to read" list. | * | ✓ | ✅ |✅ |
-| **BKT-12** | The user can create an account / log in. | * | ✓ |✅| ✅|
-| **BKT-13** | The user can rate other users based on their reviews and books. | * | ✓ | | |
-| **BKT-14** | The user can browse reviews of other users. | * | ✓ |✅|✅|
-| **BKT-15** | The mobile and web applications support offline reading progress tracking. | * | ✓ | ✅ | |
-| **BKT-16** | The application supports languages: Polish, English. | * | ✓ | ⏳ | ✅ |
-| **BKT-17** | The user can reset their password. | * | ✓ | ✅ |✅ |
-| **BKT-18** | The user can add books by ISBN number. | * | ✓ ||✅|
-| **BKT-19** | The user can enable 2FA for security. | * | ✓ |✅|✅|
-| **BKT-20** | The user can change the app theme. | * | ✓ |  |✅ |
-| **BKT-21** | The user can log out. | * | ✓ | ✅ |✅ |
+
+
+
+## Running the Project Locally
+
+1. Clone the repository:
+```
+    git clone https://github.com/yourusername/BookTracker-mobile.git
+```
+2. Open the project in Android Studio.
+
+3. Requirements:
+
+   - Android SDK 33+
+   - Kotlin 1.9+
+   - Gradle 8+
+
+4. Run the project on an emulator or connected device.
+
+5. Dependencies:
+
+   - Android Studio should automatically resolve all Gradle dependencies.
+
+   - If prompted, sync Gradle and install missing SDKs.
+
+## Remote APK Installation
+
+If you want to install the app directly on a physical device without using Android Studio:
+
+1. Locate the release APK:
+```
+Path: BookTracker-mobile/app/release/app-release.apk
+```
+2. Transfer the APK to your Android device:
+
+    - You can use a USB cable, Bluetooth, Google Drive, or any file-sharing method.
+
+    - Enable "Install from unknown sources":
+
+3. On your Android device, go to:
+
+```
+Settings > Security > Install unknown apps
+```
+Allow installation from the file manager or source you'll use to open the APK.
+
+4. Install the APK:
+
+    - Open the file manager on your device.
+
+    - Locate app-release.apk and tap it to begin installation.
+
+    - Follow the prompts to complete installation.
+
+    - Launch the app from your home screen or app drawer after installation completes.
 
 
 
 [↑ Back to top](#readme-top)
+
+
